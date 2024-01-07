@@ -1,0 +1,28 @@
+.listadoProductos{
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+
+
+@media (width < 1290px) {
+    .listadoProductos{
+        justify-content: center;
+    }
+}
+@media (width < 1200px) {
+    .listadoProductos{
+        margin: 0 50px;
+    }
+}
+@media (width < 1040px) {
+    .listadoProductos{
+        justify-content: flex-start;
+    }
+}
+

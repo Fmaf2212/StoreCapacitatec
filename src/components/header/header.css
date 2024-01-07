@@ -1,0 +1,37 @@
+header {
+    background-color: #4472C4; /* Cambia el color de fondo según tu diseño */
+    color: white;
+    padding: 10px;
+}
+header .contain{
+    margin: 0 auto; /* Esto centrará el header en la pantalla */
+    max-width: 1400px; /* Establece el ancho máximo */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 100px; /* Ajusta el tamaño de tu logotipo según tus necesidades */
+    height: auto;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+footer {
+    /* Estilos para el pie de página según tus necesidades */
+}

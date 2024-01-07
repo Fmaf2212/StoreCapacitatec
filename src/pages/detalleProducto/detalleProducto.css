@@ -1,0 +1,35 @@
+.divDetailProduct{
+    display: flex;
+    width: fit-content;
+    margin: 100px auto;
+    gap: 200px;
+}
+.divDetailProduct .divDetailProduct__info p{
+    color: #E14730;
+    font-size: 3em;
+    font-weight: bold;
+}
+.divDetailProduct .divDetailProduct__info .inputs{
+    display: flex;
+    gap: 20px;
+}
+.divDetailProduct .divDetailProduct__info .inputs .cant{
+    padding: 15px 5px 15px 20px;
+    width: 40px;
+    font-size: 20px;
+}
+.divDetailProduct .divDetailProduct__info .inputs .cant:focus{
+    outline: none;
+}
+.divDetailProduct .divDetailProduct__info .inputs .addCar{
+    background-color: #E14730;
+    color: #fff;
+    padding: 15px 55px;
+    border-radius: 5px;
+    border: 0px;
+    transition: .3s ease background-color;
+    cursor: pointer;
+}
+.divDetailProduct .divDetailProduct__info .inputs .addCar:hover{
+    background-color: #f1634d;
+}
