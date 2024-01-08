@@ -4,13 +4,20 @@
     margin: 100px auto;
     gap: 200px;
 }
+.divDetailProduct .divDetailProduct__info h1{
+    margin-top: 0;
+}
 .divDetailProduct .divDetailProduct__info p{
     color: #E14730;
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: bold;
+    text-align: start;
+    margin-top: 0;
 }
 .divDetailProduct .divDetailProduct__info .inputs{
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
 }
 .divDetailProduct .divDetailProduct__info .inputs .cant{
@@ -24,12 +31,55 @@
 .divDetailProduct .divDetailProduct__info .inputs .addCar{
     background-color: #E14730;
     color: #fff;
-    padding: 15px 55px;
-    border-radius: 5px;
+    padding: 15px 25px;
+    border-radius: 20px;
     border: 0px;
     transition: .3s ease background-color;
     cursor: pointer;
 }
 .divDetailProduct .divDetailProduct__info .inputs .addCar:hover{
     background-color: #f1634d;
+}
+.divDetailProduct .divDetailProduct__info .descProduct{
+    color: #535365;
+    font-size: .8em;
+    text-align: justify;
+}
+
+
+.inputNumber{
+    display: flex;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 45px;
+}
+.inputNumber input[type="number"]{
+    -moz-appearance: textfield;
+    text-align: center;
+    font-size: 20px;
+    border: none;
+    background-color: #ffffff;
+    color: #202030;
+}
+.inputNumber input[type="number"]:focus{
+    outline: none;
+}
+.inputNumber input::-webkit-outer-spin-button,
+.inputNumber input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+.inputNumber button{
+    color: #0b1534;
+    background-color: #ffffff;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+.inputNumber .decrement{
+    padding: 10px 5px 10px 15px;
+    border-radius: 45px 0 0 45px;
+}
+.inputNumber .increment{
+    padding: 10px 15px 10px 5px;
+    border-radius: 0 45px 45px 0;
 }

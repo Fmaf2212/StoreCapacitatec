@@ -6,7 +6,7 @@ const CarritoCompras = () => {
   return (
     <div>
       <h1>Carro de Compras</h1>
-      <table>
+      <table className="tableCarritoCompras">
         <thead>
           <tr>
             <th>Descartar</th>

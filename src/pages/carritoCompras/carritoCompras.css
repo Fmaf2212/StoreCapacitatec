@@ -1,4 +1,4 @@
-table {
+.tableCarritoCompras {
     border-collapse: collapse;
     width: 80%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -8,27 +8,27 @@ table {
     overflow: hidden;
   }
 
-  th, td {
+  .tableCarritoCompras th, td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
   }
 
-  td img {
+  .tableCarritoCompras td img {
     max-width: 100px;
     height: auto;
   }
 
-  th {
+  .tableCarritoCompras th {
     background-color: #4CAF50;
     color: white;
   }
 
-  tr:hover {
+  .tableCarritoCompras tr:hover {
     background-color: #f1f1f1;
   }
 
-  button {
+  .tableCarritoCompras button {
     background-color: #f44336;
     color: white;
     padding: 8px 12px;
@@ -37,6 +37,6 @@ table {
     cursor: pointer;
   }
 
-  button:hover {
+  .tableCarritoCompras button:hover {
     background-color: #d32f2f;
   }
