@@ -1,7 +1,7 @@
 header {
-    background-color: #4472C4; /* Cambia el color de fondo según tu diseño */
+    background-color: #000; /* Cambia el color de fondo según tu diseño */
     color: white;
-    padding: 10px;
+    padding: 0 10px;
 }
 header .contain{
     margin: 0 auto; /* Esto centrará el header en la pantalla */
@@ -23,15 +23,36 @@ nav ul {
 
 nav li {
     margin-right: 20px;
+    display: flex;
+    align-items: flex-end;
 }
 
 nav a {
     text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
+    color: #A29C9C;
+    font-weight: 600;
+    font-size: 1.125em;
+    transition: .3s ease color;
+}
+nav a:hover {
+    color: #fff;
 }
 
-footer {
-    /* Estilos para el pie de página según tus necesidades */
+nav ul li a .canasta{
+    width: 60px;
+    display: flex;
+    align-items: center;
+}
+nav ul li a .canasta rect,
+nav ul li a .canasta path{
+    fill: #A29C9C;
+}
+nav ul li a .canasta text{
+    font-size: 5em;
+    fill: #fff;
+}
+nav ul .ptos{
+    /* display: flex; */
+    display: none;
+    align-items: center;
 }

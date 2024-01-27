@@ -1,11 +1,12 @@
 .listadoProductos{
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 100px 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
+    height: calc(100vh - 304px);
 }
 
 

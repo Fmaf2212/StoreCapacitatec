@@ -3,6 +3,7 @@
     box-sizing: border-box;
     flex: 1 1 100%;
     max-width: 250px;
+    height: fit-content;
     transition: .3s ease box-shadow;
 }
 
@@ -26,14 +27,15 @@
 }
 
 .product-title {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #fff;
 }
 
 .product-price {
     font-size: 16px;
-    color: #e44d26;
+    color: #fff;
 }
 
 .bloqueImg{

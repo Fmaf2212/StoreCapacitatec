@@ -1,0 +1,37 @@
+.inputNumber{
+    display: flex;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 45px;
+}
+.inputNumber input[type="number"]{
+    -moz-appearance: textfield;
+    text-align: center;
+    font-size: 20px;
+    border: none;
+    background-color: #ffffff;
+    color: #202030;
+    width: 60px;
+}
+.inputNumber input[type="number"]:focus{
+    outline: none;
+}
+.inputNumber input::-webkit-outer-spin-button,
+.inputNumber input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+.inputNumber button{
+    color: #0b1534;
+    background-color: #ffffff;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.inputNumber .decrement{
+    padding: 10px 5px 10px 15px;
+    border-radius: 45px 0 0 45px;
+}
+.inputNumber .increment{
+    padding: 10px 15px 10px 5px;
+    border-radius: 0 45px 45px 0;
+}
