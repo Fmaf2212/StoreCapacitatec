@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import './listadoProductos.css'
 import Producto from "../../components/product/Producto";
@@ -7,18 +7,50 @@ import Producto from "../../components/product/Producto";
 // import search from './images/search.png'
 
 const ListadoProductos = () => {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    // Llamada al servicio POST cuando el componente se monta
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://capacitatec.net/wp-admin/admin-ajax.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            action: 'getProductosGeneral',
+            // Otros parámetros en el cuerpo según sea necesario
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener productos');
+        }
+
+        // Manejar la respuesta aquí si es necesario
+        const data = await response.json();
+        console.log(data);
+        setProductos(data);
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="container listadoProductos">
-
-      <Producto nomProduct={"Taza de cerámica clásica"} number={1} precio={19.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/2.png'} />
-      <Producto nomProduct={"Taza térmica de acero inoxidable"} number={2} precio={29.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/1.2-2048x1152.png'} />
-      <Producto nomProduct={"Taza de viaje con tapa antiderrame"} number={3} precio={14.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/1-2048x1152.png'} />
-      <Producto nomProduct={"Taza de viaje con tapa antiderrame"} number={4} precio={24.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/2.1-2048x1152.png'} />
-      <Producto nomProduct={"Taza de cerámica clásica"} number={5} precio={34.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/2.png'} />
-      <Producto nomProduct={"Taza de cerámica clásica"} number={6} precio={39.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/4.1-2048x1152.png'} />
-      <Producto nomProduct={"Taza de cerámica clásica"} number={7} precio={49.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/4-2048x1152.png'} />
-      <Producto nomProduct={"Taza de cerámica clásica"} number={8} precio={19.99} img={'https://capacitatec.net/wp-content/uploads/2022/05/peru-1-2048x1152.png'} />
+      {productos.map((producto) => (
+        <Producto
+          key={producto.IdProduct}  // Asegúrate de tener una propiedad 'key' única para cada producto
+          nomProduct={producto.ProductName}
+          number={producto.IdProduct}
+          precio={producto.ProductPrice}
+          img={producto.ProductImage}
+        />
+      ))}
     </div>
   );
 };

@@ -20,7 +20,7 @@
   }
 
   .tableCarritoCompras th {
-    background-color: #4CAF50;
+    background: linear-gradient(to bottom, #000000, #808080);
     color: white;
   }
 
@@ -29,7 +29,7 @@
   }
 
   .tableCarritoCompras button {
-    background-color: #f44336;
+    background-color: #007BA0;
     color: white;
     padding: 8px 12px;
     border: none;

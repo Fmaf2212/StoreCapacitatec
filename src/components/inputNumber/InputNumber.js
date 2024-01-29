@@ -2,8 +2,8 @@ import React, {useState} from "react";
 
 import "./inputNumber.css";
 
-const InputNumber = () => {
-  const [value, setValue] = useState(1);
+const InputNumber = ({cantidad, onCantidadChange}) => {
+  const [value, setValue] = useState(cantidad);
   const min = 1; // Puedes establecer el valor mínimo según tus necesidades
   const max = 100; // Puedes establecer el valor máximo según tus necesidades
   const step = 1; // Puedes establecer el paso según tus necesidades
@@ -14,6 +14,7 @@ const InputNumber = () => {
 
     if (newValue >= min && newValue <= max) {
       setValue(newValue);
+      onCantidadChange(newValue)
     }
   };
 

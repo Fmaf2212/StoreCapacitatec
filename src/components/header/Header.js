@@ -48,11 +48,11 @@ const Header = () => {
                   <text
                     x="390"
                     y="460"
-                    text-anchor="start"
-                    class="uxskpx M846Y_"
+                    textAnchor="start"
+                    className="uxskpx M846Y_"
                     data-hook="items-count"
                   >
-                    0
+                    {localStorage.getItem("carritoLength") ? localStorage.getItem("carritoLength") : 0}
                   </text>
                 </svg>
               </Link>

@@ -6,7 +6,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
-    height: calc(100vh - 304px);
+    height: 100%;
 }
 
 
