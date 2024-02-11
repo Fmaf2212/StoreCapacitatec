@@ -46,6 +46,7 @@ const Header = () => {
                   <rect x="315.5" y="447.7" width="10.7" height="10.7"></rect>
                   <rect x="269.1" y="447.7" width="10.7" height="10.7"></rect>
                   <text
+                    id="toñoPuto"
                     x="390"
                     y="460"
                     textAnchor="start"
