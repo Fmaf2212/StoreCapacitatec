@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "./Modal"; // Reemplaza "path-to-your-modal-component" con la ruta real a tu componente modal
+import verificarAutenticacion from '../../checkAuth';
 
 import "./historialPedidos.css";
 
@@ -10,7 +11,11 @@ const HistorialPedidos = () => {
   const [detallePedido, setDetallePedido] = useState([]);
 
   useEffect(() => {
+    // Verifica si el usuario está autenticado
+    verificarAutenticacion();
+
     const fetchData = async () => {
+      const idUsuarioLogueado = localStorage.getItem('idUsuarioLogueado');
       try {
         const response = await fetch(
           "https://capacitatec.net/wp-admin/admin-ajax.php",
@@ -21,7 +26,7 @@ const HistorialPedidos = () => {
             },
             body: new URLSearchParams({
               action: "getHistorialCompras",
-              idCliente: 14582,
+              idCliente: idUsuarioLogueado,
             }),
           }
         );
@@ -42,8 +47,9 @@ const HistorialPedidos = () => {
     fetchData();
   }, []);
 
-  const handleDetalleClick = async (idCli) => {
+  const handleDetalleClick = async (idCli,index) => {
     console.log(idCli);
+    console.log(index);
     try {
       const response = await fetch(
         "https://capacitatec.net/wp-admin/admin-ajax.php",
@@ -65,8 +71,8 @@ const HistorialPedidos = () => {
 
       const detalleData = await response.json();
       console.log(detalleData);
-      console.log(detalleData[0].DetalleCompra);
-      const arrayDeObjetos = JSON.parse(detalleData[0].DetalleCompra);
+      console.log(detalleData[index].DetalleCompra);
+      const arrayDeObjetos = JSON.parse(detalleData[index].DetalleCompra);
       setDetallePedido(arrayDeObjetos);
       console.log(arrayDeObjetos);
       setModalOpen(true);
@@ -88,7 +94,8 @@ const HistorialPedidos = () => {
       {loading ? (
         <p className="text-gray-600">Cargando historial de pedidos...</p>
       ) : (
-        <table className="table-auto w-full border border-gray-300 rounded-md overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border border-gray-300 rounded-md">
           <thead className="bg-gray-200">
             <tr>
               <th className="py-2 px-4 border-b text-center">Referencia del Pedido</th>
@@ -99,7 +106,7 @@ const HistorialPedidos = () => {
             </tr>
           </thead>
           <tbody>
-            {historialPedidos.map((pedido) => (
+            {historialPedidos.map((pedido,index) => (
               <tr key={pedido.IdCompra} className="hover:bg-gray-100">
                 <td className="py-2 px-4 border-b text-center">{pedido.IdCompra}</td>
                 <td className="py-2 px-4 border-b text-center">{pedido.Fecha}</td>
@@ -107,7 +114,7 @@ const HistorialPedidos = () => {
                 <td className="py-2 px-4 border-b text-center">{pedido.Estado}</td>
                 <td className="py-2 px-4 border-b text-center">
                   <button
-                    onClick={() => handleDetalleClick(pedido.IdCliente)}
+                    onClick={() => handleDetalleClick(pedido.IdCliente,index)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Detalle
@@ -117,42 +124,45 @@ const HistorialPedidos = () => {
             ))}
           </tbody>
         </table>
+      </div>
       )}
       {modalOpen && (
         <Modal onClose={handleCloseModal}>
           <div className="p-6">
             <h2 className="text-2xl font-bold mb-4 text-center">Detalle de Pedido</h2>
-            <table className="table-auto w-full border border-gray-300 rounded-md overflow-hidden">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Producto</th>
-                  <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Cantidad</th>
-                  <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Precio</th>
-                  <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {detallePedido.map((detalle, index) => (
-                  <tr
-                    key={index}
-                    className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
-                  >
-                    <td className="py-2 px-4 border-b text-center">
-                      {detalle.Nombre}
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      {detalle.cantidad}
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      S/ {detalle.precio}
-                    </td>
-                    <td className="py-2 px-4 border-b text-center">
-                      S/ {(detalle.cantidad * detalle.precio).toFixed(2)}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full border border-gray-300 rounded-md">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Producto</th>
+                    <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Cantidad</th>
+                    <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Precio</th>
+                    <th className="py-2 px-4 border-b text-center bg-slate-600 text-white">Subtotal</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {detallePedido.map((detalle, index) => (
+                    <tr
+                      key={index}
+                      className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
+                    >
+                      <td className="py-2 px-4 border-b text-center">
+                        {detalle.Nombre}
+                      </td>
+                      <td className="py-2 px-4 border-b text-center">
+                        {detalle.cantidad}
+                      </td>
+                      <td className="py-2 px-4 border-b text-center">
+                        S/ {detalle.precio}
+                      </td>
+                      <td className="py-2 px-4 border-b text-center">
+                        S/ {(detalle.cantidad * detalle.precio).toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Modal>
       )}

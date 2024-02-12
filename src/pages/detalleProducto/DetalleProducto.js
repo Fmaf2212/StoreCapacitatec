@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import verificarAutenticacion from '../../checkAuth';
+import Swal from 'sweetalert2';
 
 import "./detalleProducto.css";
 import "../../../src/styles-globals.css";
@@ -16,12 +18,17 @@ const DetalleProducto = () => {
 
   const [date, setDate] = useState(0);
 
+  useEffect(() => {
+    // Verifica si el usuario está autenticado
+    verificarAutenticacion();
+  }, [])
+
   // Manejador para actualizar la cantidad
   const handleCantidadChange = (nuevaCantidad) => {
     setCantidad(nuevaCantidad);
   };
   //mandar al localStorage
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
     // Verificar si el producto ya existe en el carrito
     const productoExistenteIndex = carritoExistente.findIndex(
@@ -31,16 +38,21 @@ const DetalleProducto = () => {
       // Si el producto ya existe, actualizar la cantidad y el precio
       carritoExistente[productoExistenteIndex].cantidad += cantidad;
       carritoExistente[productoExistenteIndex].montoSubTotal +=
-      cantidad * detalleProducto.ProductPrice;
+        cantidad * detalleProducto.ProductPrice;
+      await Swal.fire('Agregado correctamente');
     } else {
       // Si el producto no existe, agregarlo al carrito
       const nuevoProducto = {
         idProducto: detalleProducto.IdProduct,
+        Nombre: detalleProducto.ProductName,
         cantidad: cantidad,
         precio: detalleProducto.ProductPrice,
         montoSubTotal: cantidad * detalleProducto.ProductPrice,
       };
+      // Utiliza SweetAlert para mostrar un mensaje de éxito
+      await Swal.fire('Agregado correctamente');
       carritoExistente.push(nuevoProducto);
+
       /* Modificando valor de la canasta */
       const productosEnCarrito = JSON.parse(localStorage.getItem('carrito'));
       let cantidadProductosEnCarrito;
@@ -48,11 +60,11 @@ const DetalleProducto = () => {
       if (productosEnCarrito === null || productosEnCarrito.length === 0) {
         cantidadProductosEnCarrito = 1;
         localStorage.setItem('carritoLength', '1');
-        document.getElementById('toñoPuto').textContent = 1;
+        document.getElementById('canasta').textContent = 1;
       } else {
         cantidadProductosEnCarrito = productosEnCarrito.length + 1;
         localStorage.setItem('carritoLength', cantidadProductosEnCarrito.toString());
-        document.getElementById('toñoPuto').textContent = cantidadProductosEnCarrito;
+        document.getElementById('canasta').textContent = cantidadProductosEnCarrito;
       }
     }
     // Calcular el nuevo monto total
@@ -63,7 +75,6 @@ const DetalleProducto = () => {
     localStorage.setItem("carrito", JSON.stringify(carritoExistente));
     localStorage.setItem("montoTotal", nuevoMontoTotal);
     localStorage.setItem("fecha", date);
-    localStorage.setItem("idUsuarioLogueado", 14381);
     localStorage.setItem('carritoLength', carritoExistente.length);
   };
 
@@ -141,31 +152,29 @@ const DetalleProducto = () => {
   }
 
   return (
-    <div className="container divDetailProduct">
+    <div className="container divDetailProduct gap-12 md:gap-24">
       <img
         src={detalleProducto.ProductImage}
         alt={detalleProducto.ProductImage}
-        style={{ maxWidth: "370px" }}
+        className="max-w-[340px] mx-auto"
       />
-      <div className="divDetailProduct__info">
+      <div className="divDetailProduct__info mt-4 md:mt-0 md:ml-4 md:flex-1 flex-col md:flex-row md:gap-20 gap-4">
         <section className="product-info-section">
-          <h1>{detalleProducto.ProductName}</h1>
-          <div className="skuProduct">SKU: {detalleProducto.IdProduct}</div>
-          <p className="descProduct">{detalleProducto.ProductDescription}</p>
+          <h1 className="text-2xl font-bold">{detalleProducto.ProductName}</h1>
+          <div className="skuProduct text-gray-600">SKU: {detalleProducto.IdProduct}</div>
+          <p className="descProduct text-gray-700">{detalleProducto.ProductDescription}</p>
         </section>
-        <section className="product-add-to-cart-section">
-          <p className="costProduct">${detalleProducto.ProductPrice}</p>
-          <div className="inputs">
-            <p className="lblCant">Cantidad</p>
+        <section className="product-add-to-cart-section mt-4">
+          <p className="costProduct text-5xl md:text-[2.5em] font-bold text-center md:text-start mb-12">${detalleProducto.ProductPrice}</p>
+          <div className="inputs flex flex-col md:flex-row mt-2 items-center md:items-start">
+            <label className="lblCant mb-2 md:mr-4 text-xl md:text-base">Cantidad</label>
             <InputNumber cantidad={cantidad} onCantidadChange={handleCantidadChange} />
-            {/* <input className="cant" type="number" min="1" max="100" /> */}
             <input
-              className="bg-black bg-opacity-70 text-white px-[25px] py-[15px] border-0 rounded-none transition duration-300 ease-in-out cursor-pointer text-xl font-normal mt-8 hover:bg-[#007BA0] hover:text-white"
+              className="bg-black bg-opacity-70 text-white px-6 py-4 md:px-4 md:py-2 mt-8 md:mt-2 border-0 rounded-none transition duration-300 ease-in-out cursor-pointer text-xl md:text-base font-normal hover:bg-[#007BA0] hover:text-white"
               type="submit"
               value="Agregar al carrito"
               onClick={handleAddToCart}
             />
-            <p>{MontoTotal}</p>
           </div>
         </section>
       </div>

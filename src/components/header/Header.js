@@ -1,25 +1,36 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./header.css";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const redirectToHome = () => {
+    const idUsuarioLogueado = localStorage.getItem('idUsuarioLogueado');
+    if (idUsuarioLogueado) {
+      const url = `/?idCliente=${idUsuarioLogueado}`;
+      navigate(url);
+    }
+  };
   return (
     <header>
       <div className="contain">
         <div className="logo">
-          <img src="/images/logoCapacitecSinFondo.png" alt="Logo" />
+          <img
+            src="/images/logoCapacitecSinFondo.png"
+            alt="Logo"
+            onClick={redirectToHome}
+            style={{ cursor: 'pointer' }} 
+          />
         </div>
         <nav>
           <ul>
-            <li>
-              <Link to="/">TIENDA</Link>
-            </li>
-            <li>
+            <li className="md:mr-12 mr-5 md:text-lg text-sm flex items-center">
               <Link to="/historialPedidos">HISTORIAL</Link>
             </li>
-            <li>
+            <li className="md:mr-12 mr-5 md:text-lg text-sm">
               <Link to="/carritoCompras">
                 <svg
                   className="canasta"
@@ -58,10 +69,10 @@ const Header = () => {
                 </svg>
               </Link>
             </li>
-            {/* <li>
-              <Link to="/carritoCompras">CARRITO</Link>
-            </li> */}
-            <div className="ptos">Puntos: 100pts</div>
+            <li className="md:mr-12 mr-5 md:text-lg text-sm flex items-center">
+              {/* Aquí puedes mostrar el nombre del usuario */}
+              <div id="nombre-usuario" className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap"></div>
+            </li>
           </ul>
         </nav>
       </div>

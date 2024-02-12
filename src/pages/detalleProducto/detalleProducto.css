@@ -4,13 +4,11 @@
     align-items: center;
     width: fit-content;
     margin: 0 auto;
-    gap: 100px;
     padding-top: 100px;
     padding-bottom: 100px;
 }
 .divDetailProduct .divDetailProduct__info{
     display: flex;
-    gap: 80px;
 }
 .divDetailProduct .divDetailProduct__info .product-info-section{
     max-width: 533px;
@@ -65,20 +63,15 @@
 }
 .divDetailProduct .divDetailProduct__info .product-add-to-cart-section .costProduct{
     color: #020202B3;
-    font-size: 2.5em;
     font-weight: bold;
-    text-align: start;
-    margin: 0 0 20px 0;
 }
 .divDetailProduct .divDetailProduct__info .product-add-to-cart-section .inputs{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
     gap: 10px;
 }
 .divDetailProduct .divDetailProduct__info .product-add-to-cart-section .inputs .lblCant{
-    font-size: 1em;
     color: #3e3e3e;
     font-family: sans-serif;
     margin: 0;

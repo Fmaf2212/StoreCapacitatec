@@ -27,7 +27,7 @@ const Producto = ({ nomProduct, number, precio, img }) => {
             <Link to={`/detalleProducto/${number}`}>
               <img src="/images/search.png" alt="" />
             </Link>
-            <img src="/images/add-to-cart.png" alt="" />
+            {/* <img src="/images/add-to-cart.png" alt="" /> */}
           </div>
         )}
       </div>

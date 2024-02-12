@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import Swal from 'sweetalert2';
 import './carritoCompras.css'
 import { useNavigate  } from "react-router-dom";
+import verificarAutenticacion from '../../checkAuth';
 
 const CarritoCompras = () => {
   const navigate = useNavigate();
@@ -10,6 +11,9 @@ const CarritoCompras = () => {
   const [fecha, setFecha] = useState('');
   const [productos, setProductos] = useState([]);
   useEffect(() => {
+    // Verifica si el usuario está autenticado
+    verificarAutenticacion();
+
     const obtenerProductos = async () => {
       const storedMontoTotal = localStorage.getItem('montoTotal');
       const storedFecha = localStorage.getItem('fecha');
@@ -70,11 +74,13 @@ const CarritoCompras = () => {
   };
 
   const handlePagarAhora = async () => {
+    let idUsuarioLogueado = localStorage.getItem('idUsuarioLogueado')
     // Construir objeto con la información
     const compraData = {
       fecha,
       montototal: montoTotal,
-      idcliente: 14381,
+      idcliente: idUsuarioLogueado,
+      estado: "Pendiente",
       detalle: productos,
     };
     console.log(compraData);
@@ -93,12 +99,13 @@ const CarritoCompras = () => {
       });
       if (response.ok) {
         // Utiliza SweetAlert para mostrar un mensaje de éxito
-        Swal.fire('Detalle de compra guardado correctamente').then(()=>{
-          // Redirigir a la página de ListadoProductos
-          navigate('/');
-          // Limpiar el localStorage
-          localStorage.clear()
-        });
+        await Swal.fire('Detalle de compra guardado correctamente');
+        navigate(`/?idCliente=${idUsuarioLogueado}`);
+        localStorage.removeItem('carritoLength');
+        localStorage.removeItem('carrito');
+        localStorage.removeItem('montoTotal');
+        localStorage.removeItem('fecha');
+        document.getElementById('canasta').textContent = 0;
       } else {
         Swal.fire({
           icon: 'error',
@@ -160,7 +167,7 @@ const CarritoCompras = () => {
       const productosEnCarrito = JSON.parse(localStorage.getItem('carrito'))
       const cantidadProductosEnCarrito = productosEnCarrito.length;
       localStorage.setItem('carritoLength', cantidadProductosEnCarrito.toString());
-      document.getElementById('toñoPuto').textContent = cantidadProductosEnCarrito;
+      document.getElementById('canasta').textContent = cantidadProductosEnCarrito;
     } else {
       console.warn('No se encontró un detalle asociado al producto eliminado:', productoEliminado);
       // Manejo adicional si es necesario
@@ -168,43 +175,45 @@ const CarritoCompras = () => {
   };
 
   return (
-    <div className="my-8">
+    <div className="my-8 px-6">
       <h1 className="text-3xl font-semibold mb-4 text-gray-800">Carro de Compras</h1>
-      <table className="tableCarritoCompras w-full border border-gray-300">
-        <thead>
-          <tr>
-            <th>Imagen</th>
-            <th>Nombre Producto</th>
-            <th>Cantidad</th>
-            <th>Precio Unit.</th>
-            <th>Total</th>
-            <th>Descartar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {detallesProductos.map((detalleProducto, index) => {
-            const producto = productos[index];
-            if (!producto || !detalleProducto || typeof detalleProducto.ProductPrice === 'undefined') {
-              // Si el producto o el detalleProducto son undefined, muestra un mensaje o maneja la situación de alguna manera.
-              return null; // O puedes renderizar un componente vacío o un mensaje de error.
-            }
-            return (
-              <tr key={index}>
-                <td>
-                  <img src={detalleProducto ? detalleProducto.ProductImage : ''} alt={`Producto ${index + 1}`} />
-                </td>
-                <td>{detalleProducto ? detalleProducto.ProductName : ''}</td>
-                <td>{producto.cantidad}</td>
-                <td>{detalleProducto ? `$${detalleProducto.ProductPrice}` : ''}</td>
-                <td>{detalleProducto ? `$${detalleProducto.ProductPrice * producto.cantidad}` : ''}</td>
-                <td>
-                <button onClick={() => handleEliminarProducto(index)}>Eliminar</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="tableCarritoCompras w-full border border-gray-300">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Total</th>
+              <th>Descartar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {detallesProductos.map((detalleProducto, index) => {
+              const producto = productos[index];
+              if (!producto || !detalleProducto || typeof detalleProducto.ProductPrice === 'undefined') {
+                // Si el producto o el detalleProducto son undefined, muestra un mensaje o maneja la situación de alguna manera.
+                return null; // O puedes renderizar un componente vacío o un mensaje de error.
+              }
+              return (
+                <tr key={index}>
+                  <td>
+                    <img src={detalleProducto ? detalleProducto.ProductImage : ''} alt={`Producto ${index + 1}`} />
+                  </td>
+                  <td>{detalleProducto ? detalleProducto.ProductName : ''}</td>
+                  <td>{producto.cantidad}</td>
+                  <td>{detalleProducto ? `$${detalleProducto.ProductPrice}` : ''}</td>
+                  <td>{detalleProducto ? `$${detalleProducto.ProductPrice * producto.cantidad}` : ''}</td>
+                  <td>
+                  <button onClick={() => handleEliminarProducto(index)}>Eliminar</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <div className="w-4/5 my-5 mx-auto px-5 flex justify-end text-2xl">Monto Total: ${localStorage.getItem("montoTotal")}</div>
       <button className="bg-opacity-70 bg-black hover:bg-[#007BA0] text-white py-3 px-6 rounded-none border-0 transition duration-300 ease-in-out cursor-pointer font-sans text-base mt-8" onClick={handlePagarAhora}>Pagar Ahora</button>
     </div>
